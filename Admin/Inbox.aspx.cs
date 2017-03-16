@@ -34,12 +34,12 @@ public partial class Admin_Inbox : System.Web.UI.Page
         {
             this.objTable = this.objPartnerSMS.getData(Session["ACCOUNT"].ToString());
             cpPartnerSMS.MaxPages = 1000;
-            cpPartnerSMS.PageSize = 15;
+            cpPartnerSMS.PageSize = 50;
             cpPartnerSMS.DataSource = this.objTable.DefaultView;
             cpPartnerSMS.BindToControl = dtlPartnerSMS;
             dtlPartnerSMS.DataSource = cpPartnerSMS.DataSourcePaged;
             dtlPartnerSMS.DataBind();
-            if (this.objTable.Rows.Count < 15)
+            if (this.objTable.Rows.Count < 50)
             {
                 this.tblABC.Visible = false;
             }
@@ -56,7 +56,7 @@ public partial class Admin_Inbox : System.Web.UI.Page
     protected void btnSaveTime_Click(object sender, EventArgs e)
     {
         TIME_TO_DELETE =  int.Parse(txtTimeDelete.Text);
-        objPartnerSMS.delData(TIME_TO_DELETE);
+        objPartnerSMS.delDataWithTime(TIME_TO_DELETE);
         Response.Redirect(Request.RawUrl);
     }
 }
