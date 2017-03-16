@@ -1,0 +1,219 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="~/Site.master.cs" Inherits="SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - GIANOIBO.COM </title>
+    <link href="../css/TVSStyle.css" rel="stylesheet" />
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
+    <link href="/gianoibo.ico" rel="shortcut icon" type="image/x-icon" />
+    <script src="../Scripts/jquery-1.10.2.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js"></script>
+    <script src="../Scripts/main.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+ 
+    <script>
+        $(function () {
+            $(".dropdown").hover(
+                    function () {
+                        $('.dropdown-menu', this).stop(true, true).fadeIn("fast");
+                        $(this).toggleClass('open');
+                        $('b', this).toggleClass("caret caret-up");
+                    },
+                    function () {
+                        $('.dropdown-menu', this).stop(true, true).fadeOut("fast");
+                        $(this).toggleClass('open');
+                        $('b', this).toggleClass("caret caret-up");
+                    });
+        });
+        // kiem tra anh co ton tai hay ko ?
+        function imgCatchError(image) {
+            image.onerror = "";
+            image.src = "Gianoibo.ico";
+            return true;
+        }
+    </script>
+
+    <script>
+        //mở toggle for $(document).ready
+        $(function () {
+            if (window.location.hash) {
+                var hash = window.location.hash;
+                $(hash).modal('toggle');
+            }
+        });
+</script>
+
+</head>
+
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+        </asp:ScriptManager>
+        <div class="MainHeader">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="DivLogo">
+                            <div class="MainLogo">
+                                <a href="../">
+                                    <img src="Gianoibo.ico" style="margin-top:0px !important; height:100px !important;"></a>
+                             </div>
+                            <% Response.Write(this.strHtmlDataUnView); %>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="HeaderSearchBG">
+                            <div class="HeaderSearchBG1">
+                                &nbsp;
+                            </div>
+                            <div class="HeaderSearchBG2">
+                                <input type="text" id="txtSearchKey" placeholder="Bạn cần tìm kiếm gì? Ví dụ đèn led 15W ..." runat="server" class="form-control" style="border: none; box-shadow: none; width: 450px !important; max-width: 450px !important;" />
+                            </div>
+                            <div class="HeaderSearchBG3" style="padding-top: 43px; padding-left: 12px;">
+                                <asp:UpdatePanel runat="server" ID="UpdatePanel" UpdateMode="Conditional">
+                                    <ContentTemplate>
+                                        <asp:ImageButton ID="btnSearch" runat="server" ImageUrl="../Images/btnSearch.png" OnClick="btnSearch_Click" />
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 HeaderHotline">
+                        <div class="HeaderHotlineTop"><% Response.Write(this.strHtmlFullName); %> 
+                            <%  if (objTbSMS.Rows.Count > 0) { %>
+                            <a href="#"> <span data-toggle="modal" data-target=".bs-example-modal-lg" class="badge" style="color:red !important;"> <%= objTbSMS.Rows.Count %> Tin nhắn mới </a> </span></a>
+                            <div class= "modal fade bs-example-modal-lg" tabindex= "-1 " role= "dialog " aria-labelledby= "myLargeModalLabel "> 
+                                <div class= "modal-dialog modal-lg " role= "document ">
+                                    <div id= "#msg " class= "modal-content ">
+                                    <%  for (int k = 0; k < objTbSMS.Rows.Count; k++)
+                                        {
+                                          %>
+                                        <div class= "well well-sm " style= "text-align:left !important;"><span style= "text-align:left !important; ">
+                                             <%=this.objTbSMS.Rows[k]["SMSContent"].ToString() %> 
+                                         </span><span style= "font-size: 12px;text-align: right;float: initial;font-family: sans-serif ">( <%=this.objTbSMS.Rows[k]["DayCreate"].ToString() %> )</span></div>
+                                     <%   } %>
+                                        <asp:Button CssClass="btn btn-info" runat="server" ID="btnSeen"  Text="Đã Xem" Width="150px"  OnClick="btnSeen_Click" />  
+                                        </div>
+                                </div>
+                            </div>
+                            <%} %>
+                                    &nbsp;&nbsp; <a href =  "Logout.aspx "><img src =  "../Images/btnLogout.png "></a>
+                        </div>
+                        <div class="HeaderHotlineBottom">
+                            <img src="../Images/Phone.png" alt="logo">
+                            <% Response.Write(this.strHotline); %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="navbar navbar-inverse" id="topMenu">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand buttonHome" runat="server" href="~/"><span>GIANOIBO.COM </span></a>
+                      <li id="nav-download-app_mobile" style="display:none">
+                                    <asp:HyperLink NavigateUrl="~/File/androidApp.apk" runat="server"  Text="download" >  <img style="height:50px;width:auto;margin-top:0%; float:left; " src="Images/google-play-badge.png" /></asp:HyperLink>
+                                </li>
+                </div>
+                <div class="navbar-collapse collapse" style="margin-left: 0px; padding-left: 0px;">
+                    <ul id="nav-desktop" class="nav navbar-nav" style="display:none"   >
+   
+                    </ul>
+                     <ul id="nav-mobile" class="nav navbar-nav" style="display:none">                  
+                  
+                         <li>
+                                    <a id="element_with_setup" href="Baogia.aspx">XEM VÀ IN BÁO GIÁ</a>
+                                </li>
+                         <li>   <a href="TinNhan.aspx"> <span class="badge" style="color:red !important;"> <%= objTbSMS.Rows.Count %> Tin nhắn  </span></a>
+                                     </li>
+                         <li><a href =  "Logout.aspx ">ĐĂNG XUẤT <img src =  "../Images/btnLogout.png "></a></li>
+                    </ul>
+                    <asp:LoginView runat="server" ViewStateMode="Disabled">
+                        <AnonymousTemplate>
+                           
+                            <ul  class="nav navbar-nav navbar-right tvsRegister">
+                                   <li id="nav-download-app_desktop">
+                                    <asp:HyperLink NavigateUrl="~/File/androidApp.apk" runat="server"  Text="download" >  <img style="height:50px;width:auto;margin-top:-10%; float:left; " src="Images/google-play-badge.png" /></asp:HyperLink>
+                                </li>
+                                 <li id="nav-download-app_desktop">
+                                    <a id="element_with_setup" href="Baogia.aspx">XEM VÀ IN BÁO GIÁ</a>
+                                </li>
+                            </ul>
+                        </AnonymousTemplate>
+                        <LoggedInTemplate>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a runat="server" href="~/Account/Manage" title="Manage your account">Hello, <%: Context.User.Identity.GetUserName()  %> !</a></li>
+                                <li>
+                                    <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/" OnLoggingOut="Unnamed_LoggingOut" />
+                                </li>
+                            </ul>
+                        </LoggedInTemplate>
+                    </asp:LoginView>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHAN TIM KIEM CUA THIET BI DI DONG -->
+        <div class="container" id="mobileSearch" style="display:none">
+            <div class="row">
+                <div id="custom-search-input">
+                    <div class="input-group col-md-12">
+
+                        <input type="text" id="txtSaerchMobile" runat="server" class="search-query form-control" placeholder="Bạn cần tìm kiếm gì? Ví dụ đèn led 15W ..." style="width: 100% !important; max-width: 100% !important;" />
+                        <span class="input-group-btn" style=" vertical-align:bottom !important;margin-bottom:-5px !important;">
+                            <asp:UpdatePanel runat="server" ID="UpdatePanel1" UpdateMode="Conditional">
+                                <ContentTemplate>
+                                    <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="../Images/SearchButtonMobile.png" OnClick="ImageButton1_Click" />
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                        </span>
+                      
+                    </div>
+                       <%Response.Write(strHtmlMenu2); %>
+                </div>
+            </div>
+        </div>
+        <!-- KET THUC PHAN TIM KIEM DANH CHO DI DONG -->
+
+        <div class="container body-content" style="list-style: none;">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+        <br />
+        <br />
+        <div class="MainFooter">
+            <div class="container">
+                <div class="MainFooterBottom1">
+                    <p style="font-weight: bold; font-size: 16px; padding-top: 16px;"><% Response.Write(this.strName); %></p>
+                    <p style="margin-top: 10px;">Địa chỉ: <% Response.Write(this.strAddress); %></p>
+                    <p style="margin-top: -5px;">Điện thoại: <% Response.Write(this.strPhone); %></p>
+                    <p style="margin-top: -5px;">Email: <% Response.Write(this.strEmail); %></p>
+                    <p id="download_app_mobile" style="margin-top:10px; margin-left:-10px; display:none;">
+                    <asp:HyperLink NavigateUrl="~/File/androidApp.apk" runat="server"  Text="download" >  <img style="height:50px;width:auto;margin-top:-5%; float:left; " src="Images/google-play-badge.png" /></asp:HyperLink>
+                    </p>      
+                </div>
+                <div class="MainFooterBottom3">
+                    <a href="#">
+                        <img src="../images/Top.png" alt=""></a>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
