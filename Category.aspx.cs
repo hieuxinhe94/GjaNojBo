@@ -99,11 +99,7 @@ public partial class Category : System.Web.UI.Page
                                 countItem = countItem + 1;
                                 this.strHtmlBody += "<div class=\"col-md-3 DefaultCell\" style =\"padding:0px;\">";
                                 this.strHtmlBody += "<div class=\"DefaultProductItemBorder\">";
-                                if (objProduct.Rows[j]["UrlImage"].ToString().Trim() == "")
-                                {
-                                    this.strHtmlBody += "<a href =\"../Detailt.aspx?id=" + objProduct.Rows[j]["Id"].ToString().Trim() + "\"><img onerror=\"imgCatchError(this)\" style = \"height:120px; width:100%;\" src =\"Images/Products/NoImg.png\" alt =\"\"></a>";
-                                }
-                                else
+                               
                                 {
                                     this.strHtmlBody += "<a href =\"../Detailt.aspx?id=" + objProduct.Rows[j]["Id"].ToString().Trim() + "\"><img  onerror=\"imgCatchError(this)\" style = \"height:120px; width:100%;\" src =\"Images/Products/" + objProduct.Rows[j]["UrlImage"].ToString() + "\" alt =\"\"></a>";
                                 }

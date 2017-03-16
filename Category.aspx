@@ -140,7 +140,7 @@
 
         <div class="item  col-xs-3 col-lg-3">
             <div class="thumbnail">
-              <a href="#">
+           <a href="../Category.aspx?Id=<%=objTableCategory.Rows[k]["Id"].ToString() %>">   
                    <img  class="group list-group-image" onerror="imgCatchError(this)" style="width:150px; height:130px ; "  src="Images/Categorys/<%=objTableCategory.Rows[k]["UrlImage"].ToString() %>" alt="<%=objTableCategory.Rows[k]["Name"].ToString() %>" />
                 <div class="caption">
                     <h5 class="group inner list-group-item-heading">
@@ -197,6 +197,8 @@
                         }
                     });
                 </script>
+        </div>
+    </div>
 
 </asp:Content>
 
